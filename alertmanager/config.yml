@@ -1,11 +1,14 @@
+global:
+  resolve_timeout: 1s
+
 route:
   receiver: web.hook
   group_by:
   - alertname
   continue: false
-  group_wait: 5s
-  group_interval: 1m
-  repeat_interval: 5m
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 10s
 receivers:
 - name: web.hook
   webhook_configs:

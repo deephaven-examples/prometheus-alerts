@@ -15,7 +15,7 @@ This app runs a [Python Flask server](https://flask.palletsprojects.com/en/2.0.x
 * `flask-app/Dockerfile` - The Dockerfile for the Python server.
 * `prometheus/prometheus.yml` - The Prometheus config file. This has been thinned down to handle just the alerts.
 * `prometheus/rules.yml` - The Prometheus alert rules file. This includes the configuration for what triggers alerts.
-* `start.sh` - Helper script that launches the application.
+* `promDhAlertsStart.sh` - Helper script that launches the application.
 
 ### High level overview
 
@@ -34,7 +34,7 @@ Before launching, you can modify any of the files in the `prometheus/` or `alert
 Once you are set, simply run the following to launch the app:
 
 ```
-sh start.sh
+sh promDhAlertsStart.sh
 ```
 
 Your Flask server should be running, and you can go to [http://localhost:10000/ide](http://localhost:10000/ide) to view the table in the top right **Panels** tab! This table will update as alerts are fired and resolved.
