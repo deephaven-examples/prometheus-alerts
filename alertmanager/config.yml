@@ -1,5 +1,6 @@
 global:
-  resolve_timeout: 1s
+  resolve_timeout: 1s #Note: This is needed because Flask is sending a 100-continue response on the
+  #initial webhook request, and alertmanager doesn't follow through with that.
 
 route:
   receiver: web.hook
