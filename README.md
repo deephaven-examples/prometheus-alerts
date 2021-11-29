@@ -23,6 +23,16 @@ This app runs a [Python Flask server](https://flask.palletsprojects.com/en/2.0.x
 
 The [`pydeephaven`](https://pypi.org/project/pydeephaven/) package is used for the server to interact with Deephaven.
 
+### docker-compose services
+
+This app uses a number of docker-compose services defined in the `docker-compose.yml` file.
+
+`grpc-api`, `web`, `grpc-proxy`, and `envoy` are used for Deephaven.
+
+`alertmanager` and `prometheus` are used to setup Prometheus and the alerts.
+
+`flask-app` is the locally built image for the Flask server.
+
 ## Dependencies
 
 * The [Deephaven-core dependencies](https://github.com/deephaven/deephaven-core#required-dependencies) are required for this project.
@@ -37,4 +47,6 @@ Once you are set, simply run the following to launch the app:
 sh promDhAlertsStart.sh
 ```
 
-Your Flask server should be running, and you can go to [http://localhost:10000/ide](http://localhost:10000/ide) to view the table in the top right **Panels** tab! This table will update as alerts are fired and resolved.
+This helper script builds the local Docker image for the Flask server, and then launches the docker-compose application.
+
+Your Flask server should now be running, and you can go to [http://localhost:10000/ide](http://localhost:10000/ide) to view the table in the top right **Panels** tab! This table will update as alerts are fired and resolved.
