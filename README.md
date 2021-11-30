@@ -2,26 +2,33 @@
 
 [Prometheus](https://prometheus.io/) is an open-source systems monitoring and alerting toolkit that collects and stores its metrics as time series data. This sample app shows how to ingest data from [Prometheus alerts](https://prometheus.io/docs/alerting/latest/configuration/#webhook_config) via webhooks into [Deephaven](https://deephaven.io/).
 
-## How it works
-
-This app runs a [Python Flask server](https://flask.palletsprojects.com/en/2.0.x/) wherever it is deployed.
-
-### Components
-
-* `alertmanager/config.yml` - The Prometheus alerts rules. This includes the configuration for the webhook alerts destination URL.
-* `docker-compose.yml` - Docker compose file that defines the Deephaven, Prometheus, and Python docker images.
-* `flask-app/requirements.txt` - Python dependencies for the application.
-* `flask-app/server.py` - The Python server that accepts the Prometheus alert webhooks.
-* `flask-app/Dockerfile` - The Dockerfile for the Python server.
-* `prometheus/prometheus.yml` - The Prometheus config file. This has been thinned down to handle just the alerts.
-* `prometheus/rules.yml` - The Prometheus alert rules file. This includes the configuration for what triggers alerts.
-* `promDhAlertsStart.sh` - Helper script that launches the application.
-
 ### High level overview
 
 This app runs a [Python Flask server](https://flask.palletsprojects.com/en/2.0.x/) that accepts [Prometheus alert webhooks](https://prometheus.io/docs/alerting/latest/configuration/#webhook_config). The webhooks are deserialized, and the desired values are extracted and stored into a Deephaven table.
 
-The [`pydeephaven`](https://pypi.org/project/pydeephaven/) package is used for the server to interact with Deephaven.
+[`docker-compose.yml`](./docker-compose.yml) launches:
+* [A Deephaven instance](https://deephaven.io)
+* [A Prometheus instance](./prometheus)
+* [A Prometheus alert manager](./alertmanager)
+* [A Flask web server that listens for Prometheus alerts and populates a Deephaven table upon new events](./flask-app)
+
+### Components
+
+#### General
+* [`promDhAlertsStart.sh`](promDhAlertsStart.sh) - Helper script that launches the application.
+* [`docker-compose.yml`](docker-compose.yml) - Docker compose file that defines the Deephaven, Prometheus, and Python docker images.
+
+#### Prometheus
+* [`prometheus/prometheus.yml`](prometheus/prometheus.yml) - The Prometheus config file. This has been thinned down to handle just the alerts.
+* [`prometheus/rules.yml`](prometheus/rules.yml) - The Prometheus alert rules file. This includes the configuration for what triggers alerts.
+
+#### Prometheus Alert Manager
+* [`alertmanager/config.yml`](alertmanager/config.yml) - The Prometheus alerts rules. This includes the configuration for the webhook alerts destination URL.
+
+#### Flask Server 
+* [`flask-app/requirements.txt`](flask-app/requirements.txt) - Python dependencies for the application.
+* [`flask-app/server.py`](flask-app/server.py) - The Python server that accepts the Prometheus alert webhooks.
+* [`flask-app/Dockerfile`](flask-app/Dockerfile) - The Dockerfile for the Python server.
 
 ## Dependencies
 
