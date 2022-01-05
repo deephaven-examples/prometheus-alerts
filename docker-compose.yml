@@ -1,8 +1,8 @@
 version: "3.4"
 
 services:
-  grpc-api:
-    image: ghcr.io/deephaven/grpc-api:${VERSION:-edge} 
+  server:
+    image: ghcr.io/deephaven/server:${VERSION:-edge} 
     expose:
       - '8080'
     volumes:
@@ -12,7 +12,7 @@ services:
       - JAVA_TOOL_OPTIONS=-Xmx4g -Ddeephaven.console.type=python -Ddeephaven.application.dir=/app.d
 
   web:
-    image: ghcr.io/deephaven/web:${VERSION:-latest}
+    image: ghcr.io/deephaven/web:${VERSION:-edge}
     expose:
       - '80'
     volumes:
@@ -20,25 +20,25 @@ services:
       - web-tmp:/tmp
 
   grpc-proxy:
-    image: ghcr.io/deephaven/grpc-proxy:${VERSION:-latest}
+    image: ghcr.io/deephaven/grpc-proxy:${VERSION:-edge}
     environment:
-      - BACKEND_ADDR=grpc-api:8080
+      - BACKEND_ADDR=server:8080
     depends_on:
-      - grpc-api
+      - server
     expose:
       - '8080'
 
   envoy:
-    image: ghcr.io/deephaven/envoy:${VERSION:-latest}
+    image: ghcr.io/deephaven/envoy:${VERSION:-edge}
     depends_on:
       - web
       - grpc-proxy
-      - grpc-api
+      - server
     ports:
       - "10000:10000"
 
   alertmanager:
-    image: prom/alertmanager:latest
+    image: prom/alertmanager:edge
     ports:
       - "9093:9093"
     volumes:
@@ -58,7 +58,7 @@ services:
       - "9090:9090"
 
   flask-app:
-    image: flask/prometheus-webhook-alerts:latest
+    image: flask/prometheus-webhook-alerts:edge
     ports:
       - "5000:5000"
 
