@@ -38,7 +38,7 @@ services:
       - "10000:10000"
 
   alertmanager:
-    image: prom/alertmanager:edge
+    image: prom/alertmanager:latest
     ports:
       - "9093:9093"
     volumes:
@@ -58,7 +58,7 @@ services:
       - "9090:9090"
 
   flask-app:
-    image: flask/prometheus-webhook-alerts:edge
+    image: flask/prometheus-webhook-alerts:latest
     ports:
       - "5000:5000"
 
