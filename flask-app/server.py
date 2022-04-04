@@ -26,18 +26,22 @@ if session is None:
 #The session.run_script() method is used to execute Python code in Deephaven.
 init = """
 from deephaven import DynamicTableWriter
-from deephaven.DateTimeUtils import convertDateTime
-import deephaven.Types as dht
+from deephaven.time import to_datetime
+import deephaven.dtypes as dht
 
-table_writer = DynamicTableWriter(
-    ["DateTime", "Job", "Instance", "AlertIdentifier", "Status"],
-    [dht.datetime, dht.string, dht.string, dht.string, dht.string]
-)
-alerts_table = table_writer.getTable()
+table_writer = DynamicTableWriter({
+    "DateTime": dht.DateTime,
+    "Job": dht.string,
+    "Instance": dht.string,
+    "AlertIdentifier": dht.string,
+    "Status": dht.string
+})
+
+alerts_table = table_writer.table
 
 def update_alerts_table(date_time_string, job, instance, alert_identifier, status):
-    date_time = convertDateTime(date_time_string)    
-    table_writer.logRow(date_time, job, instance, alert_identifier, status)
+    date_time = to_datetime(date_time_string)    
+    table_writer.write_row(date_time, job, instance, alert_identifier, status)
 """
 session.run_script(init)
 
