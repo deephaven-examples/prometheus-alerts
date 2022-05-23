@@ -58,7 +58,7 @@ services:
       - "9090:9090"
 
   flask-app:
-    image: flask/prometheus-webhook-alerts:latest
+    build: ./flask-app
     ports:
       - "5000:5000"
 
