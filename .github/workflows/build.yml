@@ -18,7 +18,7 @@ jobs:
       - name: Build
         run: sh promDhAlertsStart.sh -d
       - name: Validate tables
-        uses: deephaven/action-assert-dh-tables-present@v1
+        uses: deephaven/action-assert-dh-tables-present@v1.1.1
         with:
           table-names: alerts_table
           host: localhost
