@@ -2,6 +2,8 @@
 
 [Prometheus](https://prometheus.io/) is an open-source systems monitoring and alerting toolkit that collects and stores its metrics as time series data. This sample app shows how to ingest data from [Prometheus alerts](https://prometheus.io/docs/alerting/latest/configuration/#webhook_config) via webhooks into [Deephaven](https://deephaven.io/).
 
+This repository was built for Deephaven Community Core v0.11.0. No guarantee of forwards or badckwards compatibility is made.
+
 ### High level overview
 
 This app runs a [Python Flask server](https://flask.palletsprojects.com/en/2.0.x/) that accepts [Prometheus alert webhooks](https://prometheus.io/docs/alerting/latest/configuration/#webhook_config). The webhooks are deserialized, and the desired values are extracted and stored into a Deephaven table.
